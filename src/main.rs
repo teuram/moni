@@ -1,8 +1,7 @@
 
 use std::{
     fs::File,
-    io::{BufReader, BufRead},
-    cmp::Ordering
+    io::{BufReader, BufRead}
 };
 
 fn main() {
@@ -19,7 +18,7 @@ fn main() {
         let line = line.unwrap().trim().to_string();
 
         if line.eq("-- total") {
-            println!("{:6}\n", sum);
+            println!("{:9.2}\n", sum);
             continue;
         }
 
@@ -29,7 +28,7 @@ fn main() {
             continue;
         }
 
-        println!("{:6} {} {}\x1b[0m" , sum,
+        println!("{:9.2} {} {:.2}\x1b[0m" , sum,
                  {
                      if num > 0.0 {
                          "\x1b[38;2;255;0;0m->"
@@ -39,11 +38,6 @@ fn main() {
                          "--"
                      }
                  }, num.abs());
-                 // match num.cmp(&0) {
-                 //     Ordering::Less => "\x1b[38;2;255;0;0m->",
-                 //     Ordering::Greater => "\x1b[38;2;0;255;0m<+",
-                 //     _ => ""
-                 // }, num.abs());
 
         sum += num;
     }
