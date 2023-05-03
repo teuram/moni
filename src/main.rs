@@ -11,27 +11,39 @@ fn main() {
         .expect("File moni can not reading");
     let reader = BufReader::new(file);
 
-    let mut sum: i32 = 0;
-    let mut num: i32;
+    let mut sum: f32 = 0.0;
+    let mut num: f32;
 
     for line in reader.lines() {
 
-        if let Ok(a) = line.unwrap().trim().parse::<i32>() {
-            if a == 0 {
-                println!("{:6}", sum);
-                continue;
-            }
+        let line = line.unwrap().trim().to_string();
+
+        if line.eq("-- total") {
+            println!("{:6}\n", sum);
+            continue;
+        }
+
+        if let Ok(a) = line.parse::<f32>() {
             num = a;
         } else {
             continue;
         }
 
-        println!("{:6} {} {}" , sum,
-             match num.cmp(&0) {
-                Ordering::Less => "->",
-                Ordering::Greater => "<+",
-                _ => ""
-             }, num.abs());
+        println!("{:6} {} {}\x1b[0m" , sum,
+                 {
+                     if num > 0.0 {
+                         "\x1b[38;2;255;0;0m->"
+                     } else if num < 0.0 {
+                         "\x1b[38;2;0;255;0m<+"
+                     } else {
+                         "--"
+                     }
+                 }, num.abs());
+                 // match num.cmp(&0) {
+                 //     Ordering::Less => "\x1b[38;2;255;0;0m->",
+                 //     Ordering::Greater => "\x1b[38;2;0;255;0m<+",
+                 //     _ => ""
+                 // }, num.abs());
 
         sum += num;
     }
