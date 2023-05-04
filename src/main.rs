@@ -30,9 +30,9 @@ fn main() {
 
         println!("{:9.2} {} {:.2}\x1b[0m" , sum,
                  {
-                     if num > 0.0 {
+                     if num < 0.0 {
                          "\x1b[38;2;255;0;0m->"
-                     } else if num < 0.0 {
+                     } else if num > 0.0 {
                          "\x1b[38;2;0;255;0m<+"
                      } else {
                          "--"
