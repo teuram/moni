@@ -4,10 +4,7 @@ use std::{
     io::{BufReader, BufRead}
 };
 
-fn main() {
-
-    let file = File::open("moni")
-        .expect("File moni can not reading");
+fn moni(file: File) {
     let reader = BufReader::new(file);
 
     let mut sum: f32 = 0.0;
@@ -40,6 +37,21 @@ fn main() {
                  }, num.abs());
 
         sum += num;
+    }
+}
+
+fn main() {
+    let env = std::env::var("MONI");
+
+    match env {
+        Ok(env) => {
+            let file = File::open(env)
+                .expect("File moni can not reading");
+            moni(file);
+        },
+        Err(e) => {
+            println!("{}", e.to_string());
+        }
     }
 
 }
