@@ -28,30 +28,21 @@ fn moni(file: File) {
 
         let line = line.unwrap().trim().to_string();
 
-        if line.eq("-- total") {
-            println!("\n{}\ntotal: {}\n", line, color_f32(sum));
-            continue;
-        }
         if line.eq("-- push") {
+            println!("{:9.2}\n", sum);
             values.push(sum);
             sum = 0.0;
-            println!("{}\n", line);
+            println!("\x1b[1;34m{}\x1b[0m", line);
             continue;
         }
         if line.eq("-- pop") {
+            println!("{:9.2}\n", sum);
             if let Some(val) = values.pop() {
                 sum += val;
-                println!("{}", line);
+                println!("\x1b[1;34m{}\x1b[0m", line);
                 if sum - val < val {
-                    println!("\x1b[1;33mwarning:\x1b[0m {:.2} is less than zero\n", sum - val);
+                    println!("\x1b[1;33mwarning:\x1b[0m {} is less than zero\n", color_f32(sum - val));
                 }
-                // if sum + val < val {
-                //     sum += val;
-                //     println!("\x1b[1;33mwarning:\x1b[0m {:.2} is less than zero\n", sum - val);
-                // } else {
-                //     sum += val;
-                //     println!("{}\n", line);
-                // }
             }
             continue;
         }
@@ -75,6 +66,7 @@ fn moni(file: File) {
 
         sum += num;
     }
+    println!("{:9.2}", sum);
 }
 
 fn main() {
