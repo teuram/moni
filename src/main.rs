@@ -28,22 +28,25 @@ fn moni(file: File) {
 
         let line = line.unwrap().trim().to_string();
 
-        if line.eq("-- push") {
-            println!("{:9.2}\n", sum);
+        if line.eq(">>") {
+            println!();
             values.push(sum);
+            println!("{:9.2}\x1b[1;34m >>\x1b[0m", sum);
             sum = 0.0;
-            println!("\x1b[1;34m{}\x1b[0m", line);
+            println!();
             continue;
         }
-        if line.eq("-- pop") {
-            println!("{:9.2}\n", sum);
+        if line.eq("<<") {
+            println!();
             if let Some(val) = values.pop() {
+                println!("{:9.2}\x1b[1;34m << \x1b[0m{:.2}", sum, val);
                 sum += val;
-                println!("\x1b[1;34m{}\x1b[0m", line);
+                println!("{:9.2}\x1b[1;34m\x1b[0m", sum);
                 if sum - val < val {
-                    println!("\x1b[1;33mwarning:\x1b[0m {} is less than zero\n", color_f32(sum - val));
+                    println!("\x1b[1;33mwarning:\x1b[0m {} is less than zero", color_f32(sum - val));
                 }
             }
+            println!();
             continue;
         }
 
