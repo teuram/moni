@@ -29,17 +29,17 @@ fn moni(file: File) {
         let line = line.unwrap().trim().to_string();
 
         if line.eq(">>") {
-            println!();
+            println!("{:9.2}\n", sum);
+            println!("{:9.2}\x1b[1;34m >> \x1b[0m{:?}", sum, values);
             values.push(sum);
-            println!("{:9.2}\x1b[1;34m >>\x1b[0m", sum);
             sum = 0.0;
             println!();
             continue;
         }
         if line.eq("<<") {
-            println!();
+            println!("{:9.2}\n", sum);
+            println!("{:9.2}\x1b[1;34m << \x1b[0m{:?}", sum, values);
             if let Some(val) = values.pop() {
-                println!("{:9.2}\x1b[1;34m << \x1b[0m{:.2}", sum, val);
                 let less: bool = sum < 0.0;
                 sum += val;
                 println!("{:9.2}\x1b[1;34m\x1b[0m", sum);
