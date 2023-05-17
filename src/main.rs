@@ -40,9 +40,10 @@ fn moni(file: File) {
             println!();
             if let Some(val) = values.pop() {
                 println!("{:9.2}\x1b[1;34m << \x1b[0m{:.2}", sum, val);
+                let less: bool = sum < 0.0;
                 sum += val;
                 println!("{:9.2}\x1b[1;34m\x1b[0m", sum);
-                if sum - val < val {
+                if less {
                     println!("\x1b[1;33mwarning:\x1b[0m {} is less than zero", color_f32(sum - val));
                 }
             }
